@@ -1,0 +1,43 @@
+router 2
+
+conf t
+
+int loopback0
+ip addr 10.0.0.2 255.255.255.255
+no shut 
+
+int f0/0
+ip addr 10.0.0.21 255.255.255.252
+no shut
+int f0/1
+ip addr 10.0.0.37 255.255.255.252
+no shut
+
+router ospf 100 
+network 10.0.0.0 0.0.0.255 area 0
+
+redistribute bgp 43100 subnets
+router bgp 43100
+address-family ipv4 unicast
+redistribute ospf 100
+
+ip cef 
+
+int f0/0
+mpls ip
+int f0/1
+mpls ip
+int f1/0
+mpls ip
+
+no router ospf 100
+
+redistribute bgp 43100 subnets
+router bgp 43100
+no redistribute ospf 100
+int loopback0
+ip ospf 1 area 0
+int f0/0
+ip ospf 1 area 0
+int f0/1
+ip ospf 1 area 0

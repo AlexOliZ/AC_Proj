@@ -1,0 +1,11 @@
+sudo cp /opt/vyatta/etc/config.boot.default /config/config.boot
+reboot 
+
+configure 
+set interfaces ethernet eth0 address 10.0.0.42/30
+set interfaces ethernet eth1 address 10.2.0.9/30
+set interfaces ethernet eth2 address 10.1.1.9/30 
+set protocols ospf area 0 network 10.0.0.0/24
+set system host-name A1
+
+set interfaces dummy dum0 address 10.0.0.8/32

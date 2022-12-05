@@ -1,0 +1,61 @@
+ip cef
+mpls ip em todas as interfaces menos as ligadas aos clientes Z?
+ospf em todas as interfaces menos as ligadas aos clientes Z?
+
+conf t
+
+ip cef
+
+int loopback0
+ip addr 10.0.0.10 255.255.255.255
+mpls ip 
+no shut 
+
+int f0/0 
+ip addr 10.0.0.50 255.255.255.252
+mpls ip 
+no shut
+
+int f0/1
+ip addr 10.0.1.10 255.255.255.0
+no shut
+
+router ospf 100 
+network 10.0.0.0 0.0.0.255 area 0
+
+redistribute bgp 43100 subnets
+router bgp 43100
+address-family ipv4 unicast
+redistribute ospf 100
+
+
+ip vrf VPN-1
+rd 43100:1
+route-target export 43100:1
+route-target import 43100:1
+
+interface FastEthernet0/1
+ip vrf forwarding VPN-1
+ip address 10.0.1.10 255.255.255.0 
+
+
+router bgp 43100
+bgp router-id 10.10.10.10
+neighbor 10.0.0.5 remote-as 43100
+neighbor 10.0.0.5 update-source Loopback0
+neighbor 10.0.0.9 remote-as 43100
+neighbor 10.0.0.9 update-source Loopback0
+
+address-family vpnv4
+neighbor 10.0.0.5 activate
+neighbor 10.0.0.5 send-community both
+neighbor 10.0.0.9 activate
+neighbor 10.0.0.9 send-community both
+
+address-family ipv4 vrf VPN-1
+redistribute connected
+
+int loopback0
+ip ospf 1 area 0
+int f0/0
+ip ospf 1 area 0
