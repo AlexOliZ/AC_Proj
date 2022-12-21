@@ -3,9 +3,37 @@ reboot
 
 configure 
 set interfaces ethernet eth0 address 10.0.0.42/30
-set interfaces ethernet eth1 address 10.2.0.9/30
 set interfaces ethernet eth2 address 10.1.1.9/30 
 set protocols ospf area 0 network 10.0.0.0/24
 set system host-name A1
 
 set interfaces dummy dum0 address 10.0.0.8/32
+commit 
+save 
+
+
+configure
+set protocols bgp system-as 43100
+set protocols bgp address-family l2vpn-evpn advertise-all-vni
+set protocols bgp parameters router-id 10.0.0.8
+set protocols bgp neighbor 10.0.0.7 peer-group evpn
+set protocols bgp peer-group evpn update-source dum0
+set protocols bgp peer-group evpn remote-as 43100
+set protocols bgp peer-group evpn address-family l2vpn-evpn nexthop-self
+commit 
+save 
+
+MUDAR OSPF no CORE para 10.0.0.0/23
+
+configure
+set interfaces vxlan vxlan101 source-address 10.0.0.8
+set interfaces vxlan vxlan101 vni 101
+set interfaces vxlan vxlan101 mtu 1500
+set interfaces bridge br101 address 10.2.0.9/24
+set interfaces bridge br101 description 'client X'
+set interfaces bridge br101 member interface eth1
+set interfaces bridge br101 member interface vxlan101
+commit 
+save
+exit 
+restart bgp

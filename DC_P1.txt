@@ -59,3 +59,4 @@ int loopback0
 ip ospf 1 area 0
 int f0/0
 ip ospf 1 area 0
+

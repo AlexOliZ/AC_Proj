@@ -59,3 +59,8 @@ int loopback0
 ip ospf 1 area 0
 int f0/0
 ip ospf 1 area 0
+
+
+VER SEPARAÇÃO dos ips 10.0.0.1 do core e do cliente Z!!!
+Os 2 devem conseguir usar os ips
+Mudar os ips do core de 10.0.0.0/24 para 10.0.0.0/23??
