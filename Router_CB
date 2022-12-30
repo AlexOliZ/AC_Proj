@@ -19,8 +19,6 @@ int f1/1
 ip addr 10.0.0.49 255.255.255.252
 no shut
 
-router ospf 100 
-network 10.0.0.0 0.0.0.255 area 0
 
 redistribute bgp 43100 subnets
 router bgp 43100
@@ -37,8 +35,6 @@ int f1/0
 mpls ip
 int f1/1
 mpls ip
-
-no router ospf 100
 
 redistribute bgp 43100 subnets
 router bgp 43100

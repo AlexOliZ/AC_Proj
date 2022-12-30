@@ -1,0 +1,48 @@
+# BGP 
+show bgp summary
+show ip route
+# Verify Network (valid * and best >), Next Hop and Path
+show ip bgp 
+show ip bgp neighbors
+
+__________________________________________________________
+
+# test mpls 
+# to porto DC 10.0.3.5 10.0.2.200
+# to coimbra DC 10.0.3.10 10.0.1.200
+# to aveiro DC 10.0.3.9 10.0.3.200
+
+ping vrf VPN-1
+
+show ip route
+show ip route vrf VPN-1
+show ip cef vrf VPN-1 detail
+
+show ip bgp all
+# VPNv4 address family routes
+show ip bgp vpnv4 all
+# VPNv4 address family routes with MPLS labels info
+show ip bgp vpnv4 all labels
+
+__________________________________________________________
+
+# VXLAN
+
+ips:
+DC LISBOA INT OUT -> 10.0.0.38
+DC PORTO  INT OUT -> 10.0.0.34
+DC AVEIRO INT OUT -> 10.0.0.42
+DC LISBOA LOOPBACK -> 10.0.0.7
+DC PORTO  LOOPBACK -> 10.0.0.6
+DC AVEIRO LOOPBACK -> 10.0.0.8
+PC LISBOA -> 10.2.0.104
+PC PORTO  -> 10.2.0.105
+PC AVEIRO -> 10.2.0.106
+
+
+
+$ show bgp neighbors
+$ show bgp l2vpn evpn
+$ show bgp l2vpn evpn
+
+__________________________________________________________
